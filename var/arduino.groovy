@@ -1,4 +1,12 @@
-def call(String repo, String label) {
+def testBoards(String repo, String[] labels) {
+
+  for(label in labels) {
+    testBoard(repo, label)
+  }
+
+}
+
+def testBoard(String repo, String label) {
 
   node(label) {
 

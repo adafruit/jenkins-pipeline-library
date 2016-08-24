@@ -1,3 +1,0 @@
-**testBoard(String repo, String label)**
-
-repo and label are required

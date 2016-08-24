@@ -1,6 +1,11 @@
-def call(String repo, String label) {
+def call(body) {
 
-  node(label) {
+  def config = [:]
+  body.resolveStrategy = Closure.DELEGATE_FIRST
+  body.delegate = config
+  body()
+
+  node(config.board) {
 
     currentBuild.result = "SUCCESS"
 
@@ -8,7 +13,7 @@ def call(String repo, String label) {
 
        stage 'Clone'
 
-         git url: repo
+         git url: config.repo
 
        stage 'Test'
 

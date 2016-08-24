@@ -5,32 +5,36 @@ def call(body) {
   body.delegate = config
   body()
 
-  node(config.board) {
+  for(board in config.boards) {
 
-    currentBuild.result = "SUCCESS"
+    node(board) {
 
-    try {
+      currentBuild.result = "SUCCESS"
 
-       stage 'Clone'
+      try {
 
-         git url: config.repo
+         stage 'Clone'
 
-       stage 'Test'
+           git url: config.repo
 
-         lock(env.NODE_NAME + "-" + label) {
-           sh 'prove --formatter TAP::Formatter::Jenkins /home/pi/test.t'
-         }
+         stage 'Test'
 
-       stage 'Publish'
+           lock(env.NODE_NAME + "-" + board) {
+             sh 'prove --formatter TAP::Formatter::Jenkins /home/pi/test.t'
+           }
 
-         step([$class: "TapPublisher", testResults: "**/target/tap-unit.log"])
+         stage 'Publish'
+
+           step([$class: "TapPublisher", testResults: "**/target/tap-unit.log"])
 
 
-    } catch (err) {
+      } catch (err) {
 
-        currentBuild.result = "FAILURE"
+          currentBuild.result = "FAILURE"
 
-        throw err
+          throw err
+
+      }
 
     }
 

@@ -1,5 +1,5 @@
 def call(boards) {
   for(board in boards) {
-    sh "arduino --install-boards \$${board} 2>&1"
+    sh "arduino --install-boards \$${board} || true"
   }
 }

@@ -19,6 +19,8 @@ def call(body) {
 
          lock(env.NODE_NAME + "-" + board) {
            installBoards(config.platforms)
+           installLibraries(config.libraries)
+           verifyExamples(board)
          }
 
          step([$class: "TapPublisher", testResults: "**/target/tap-unit.log"])

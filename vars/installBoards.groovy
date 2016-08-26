@@ -1,5 +1,6 @@
 def call(boards) {
   for(board in boards) {
-    sh "arduino --install-boards \$${board} || true"
+    echo "installing: ${board}"
+    sh "arduino --install-boards ${board} || true"
   }
 }

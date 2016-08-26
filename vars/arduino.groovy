@@ -18,7 +18,7 @@ def call(body) {
          scm checkout
 
          lock(env.NODE_NAME + "-" + board) {
-           installBoards(config.boards)
+           installBoards(config.platforms)
          }
 
          step([$class: "TapPublisher", testResults: "**/target/tap-unit.log"])

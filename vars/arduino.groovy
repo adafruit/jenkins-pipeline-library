@@ -15,6 +15,8 @@ def call(body) {
 
          stage board
 
+         sh 'export DISPLAY=:0'
+
          scm checkout
 
          lock(env.NODE_NAME + "-" + board) {

@@ -17,7 +17,7 @@ def call(body) {
 
          sh 'export DISPLAY=:0'
 
-         scm checkout
+         checkout scm
 
          lock(env.NODE_NAME + "-" + board) {
            installBoards(config.platforms)

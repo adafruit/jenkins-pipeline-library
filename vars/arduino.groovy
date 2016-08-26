@@ -13,19 +13,16 @@ def call(body) {
 
       try {
 
-         stage 'Clone'
+         stage board
 
-           git url: config.repo
+         scm checkout
 
-         stage 'Test'
+         lock(env.NODE_NAME + "-" + board) {
+           installBoards(config.boards)
+         }
 
-           lock(env.NODE_NAME + "-" + board) {
-             sh 'prove --formatter TAP::Formatter::Jenkins /home/pi/test.t'
-           }
-
-         stage 'Publish'
-
-           step([$class: "TapPublisher", testResults: "**/target/tap-unit.log"])
+         step([$class: "TapPublisher", testResults: "**/target/tap-unit.log"])
+         step([$class: 'GitHubCommitStatusSetter'])
 
 
       } catch (err) {

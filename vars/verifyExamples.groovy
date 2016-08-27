@@ -1,11 +1,11 @@
 def call(String platform) {
 
-  new File("${pwd()}/examples").eachDirRecurse() { dir ->
-
-    dir.eachFileMatch(~/.*.ino/) { file ->
-      sh "arduino --board \$${platform} --verify ${file.getPath()} 2>&1"
-    }
-
-  }
+  sh """#!/bin/bash
+  declare -a examples
+  examples=(\$(find examples -name '*.ino'))
+  for example in \"\${examples[@]}\"; do
+    arduino --board \$${platform} --verify \${example} 2>&1
+  done
+  """
 
 }

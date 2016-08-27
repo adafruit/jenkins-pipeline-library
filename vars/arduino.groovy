@@ -11,6 +11,8 @@ def call(body) {
 
       currentBuild.result = "SUCCESS"
 
+      sh 'source /etc/profile'
+
       try {
 
          stage board

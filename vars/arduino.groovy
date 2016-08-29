@@ -15,36 +15,10 @@ def call(body) {
     }
   }
 
-  for(board in config.boards) {
 
-    node(board) {
+  verifyExamples(config.boards)
 
-      currentBuild.result = "SUCCESS"
-
-      try {
-
-         stage board
-
-         checkout scm
-
-         lock(env.NODE_NAME + "-" + board) {
-           verifyExamples(board)
-         }
-
-         step([$class: "TapPublisher", testResults: "**/target/tap-unit.log"])
-         step([$class: 'GitHubCommitStatusSetter'])
-
-
-      } catch (err) {
-
-          currentBuild.result = "FAILURE"
-
-          throw err
-
-      }
-
-    }
-
-  }
+  step([$class: "TapPublisher", testResults: "**/target/tap-unit.log"])
+  step([$class: 'GitHubCommitStatusSetter'])
 
 }

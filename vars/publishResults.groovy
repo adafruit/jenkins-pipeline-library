@@ -10,6 +10,8 @@ def call(boards) {
 
   }
 
-  step([$class: 'GitHubCommitStatusSetter'])
+  node {
+    step([$class: 'GitHubCommitStatusSetter'])
+  }
 
 }

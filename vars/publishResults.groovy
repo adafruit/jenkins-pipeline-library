@@ -6,12 +6,9 @@ def call(boards) {
 
     node(board) {
       step([$class: "TapPublisher", testResults: "**/target/tap-unit.log"])
+      step([$class: 'GitHubCommitStatusSetter'])
     }
 
-  }
-
-  node {
-    step([$class: 'GitHubCommitStatusSetter'])
   }
 
 }

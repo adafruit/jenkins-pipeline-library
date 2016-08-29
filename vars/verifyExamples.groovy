@@ -1,7 +1,7 @@
 def call(String platform) {
 
   sh """#!/bin/bash
-  source /etc/profile
+  arduino --board \$${platform} --save-prefs
   declare -a examples
   examples=(\$(find examples -name '*.ino'))
   for example in \"\${examples[@]}\"; do

@@ -8,7 +8,7 @@ def call(body) {
 
   def _nodes = getNodeNames(config.boards)
 
-  node {
+  node('master') {
     step([$class: 'GitHubSetCommitStatusBuilder', statusMessage: [content: "Testing on ${_nodes.size()} nodes"]])
   }
 

@@ -7,9 +7,9 @@ def call(body) {
 
   def _nodes = getNodeNames(config.boards)
 
-  stage "Setup"
   for(n in _nodes) {
     node(n) {
+      stage "Setup: ${n}"
       installBoards(config.platforms)
       installLibraries(config.libraries)
     }

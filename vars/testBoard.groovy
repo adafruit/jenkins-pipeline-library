@@ -1,6 +1,5 @@
 def call(String platform) {
 
-  generateTest()
 
   sh """#!/bin/bash
   arduino --board \$${platform} --save-prefs

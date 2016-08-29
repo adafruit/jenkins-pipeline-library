@@ -19,6 +19,7 @@ def call(body) {
     for(n in _nodes) {
       node(n) {
         stage "Setup: ${n}"
+        generateTest()
         installBoards(config.platforms)
         installLibraries(config.libraries)
       }

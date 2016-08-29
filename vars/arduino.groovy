@@ -15,10 +15,7 @@ def call(body) {
     }
   }
 
-
   verifyExamples(config.boards)
-
-  step([$class: "TapPublisher", testResults: "**/target/tap-unit.log"])
-  step([$class: 'GitHubCommitStatusSetter'])
+  publishResults(config.boards)
 
 }

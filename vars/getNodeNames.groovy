@@ -10,7 +10,7 @@ def call(labels) {
      for(_node in _nodes) {
 
        if(! (_node in result)) {
-         result << _node
+         result << _node.getNodeName()
        }
 
      }

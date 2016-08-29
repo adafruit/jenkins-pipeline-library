@@ -5,6 +5,16 @@ def call(body) {
   body.delegate = config
   body()
 
+  def _nodes = getNodeNames(config.boards)
+
+  stage "Setup"
+  for(n in _nodes) {
+    node(n) {
+      installBoards(config.platforms)
+      installLibraries(config.libraries)
+    }
+  }
+
   for(board in config.boards) {
 
     node(board) {
@@ -18,8 +28,6 @@ def call(body) {
          checkout scm
 
          lock(env.NODE_NAME + "-" + board) {
-           installBoards(config.platforms)
-           installLibraries(config.libraries)
            verifyExamples(board)
          }
 

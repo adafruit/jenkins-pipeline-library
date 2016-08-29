@@ -8,19 +8,31 @@ def call(body) {
 
   def _nodes = getNodeNames(config.boards)
 
-  node('master') {
-    step([$class: 'GitHubSetCommitStatusBuilder', statusMessage: [content: "Testing on ${_nodes.size()} nodes"]])
-  }
+  currentBuild.result = "SUCCESS"
 
-  for(n in _nodes) {
-    node(n) {
-      stage "Setup: ${n}"
-      installBoards(config.platforms)
-      installLibraries(config.libraries)
+  try {
+
+    node('master') {
+      step([$class: 'GitHubSetCommitStatusBuilder', statusMessage: [content: "Testing on ${_nodes.size()} nodes"]])
     }
-  }
 
-  verifyExamples(config.boards)
-  publishResults(config.boards)
+    for(n in _nodes) {
+      node(n) {
+        stage "Setup: ${n}"
+        installBoards(config.platforms)
+        installLibraries(config.libraries)
+      }
+    }
+
+    verifyExamples(config.boards)
+    publishResults(config.boards)
+
+  } catch (err) {
+
+    currentBuild.result = "FAILURE"
+
+    throw err
+
+  }
 
 }

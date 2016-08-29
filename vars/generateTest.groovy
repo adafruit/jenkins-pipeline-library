@@ -1,4 +1,4 @@
-call() {
+def call() {
 
   writeFile file: ".tests/arduino_serial.t", text: '''#!/usr/bin/env perl
 

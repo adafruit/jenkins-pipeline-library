@@ -7,7 +7,6 @@ def call(boards) {
     // bind the label variable before the closure
     def platform = board
     def examples = []
-    def example_names = []
 
     node(platform) {
 
@@ -15,32 +14,17 @@ def call(boards) {
 
       examples = sh(returnStdout: true, script: "find examples -name '*.ino' | sort").trim().split("\n")
 
-      for (int i = 0; i < examples.size(); i++) {
-        example_names[i] = sh(returnStdout: true, script: "basename ${examples[i]} .ino").trim()
-      }
+      for(int i = 0; i < examples.size(); i++) {
 
-    }
+        def name = sh(returnStdout: true, script: "basename ${examples[i]} .ino").trim()
+        def example = examples[i]
 
-    def builders = [:]
-
-    for (int i = 0; i < examples.size(); i++) {
-
-      def example = examples[i]
-      def name = example_names[i]
-
-      builders[name] = {
-
-        node(platform) {
-          echo "Verifying ${name}.ino on ${platform}"
-          sh "arduino --board \$${platform} --verify ${example} 2>&1"
-        }
+        echo "Verifying ${name}.ino on ${platform}"
+        sh "arduino --board \$${platform} --verify ${example}"
 
       }
 
     }
-
-    builders.failFast = true
-    parallel builders
 
   }
 

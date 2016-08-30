@@ -18,7 +18,7 @@ def call(boards) {
 
     for (int i = 0; i < examples.size(); i++) {
 
-      def example = sh(returnStdout: true, script "basename ${examples[i]} .ino")
+      def example = sh(returnStdout: true, script: "basename ${examples[i]} .ino")
 
       builders[example] {
 

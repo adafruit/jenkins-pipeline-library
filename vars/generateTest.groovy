@@ -1,48 +1,46 @@
 def call() {
 
-  writeFile file: ".tests/arduino_serial.t", text: '''#!/usr/bin/env perl
+  writeFile file: ".tests/arduino_serial.t", text: '''#!/usr/bin/env node
 
-  use warnings;
-  use strict;
+  var SerialPort = require('serialport');
+  var args = process.argv.slice(2);
+  var started = false;
+  var code = 0;
 
-  use 5.10.0;
+  setTimeout(function() {
+    console.error('# test timeout');
+    process.exit(1);
+  }, 30000);
 
-  use Getopt::Long;
-  use Device::SerialPort;
+  var port = new SerialPort(args[0], {
+    parser: SerialPort.parsers.readline('\r\n'),
+    baudRate: 115200
+  });
 
-  my $PORT = '/dev/ttyUSB0';
-  GetOptions ("port=s" => \$PORT);
+  port.on('error', function(err) {
+    console.error(err);
+    process.exit(1);
+  });
 
-  my $port = Device::SerialPort->new($PORT);
-  my $started = 0;
-  my $code = 0;
+  port.on('data', function(data) {
 
-  $port->baudrate(115200);
-  $port->databits(8);
-  $port->parity('none');
-  $port->stopbits(1);
-
-  open(SERIAL, "+>$PORT");
-
-  while (my $line = <SERIAL>) {
-
-    if ($line eq '# Starting Tests.') {
-      $started = 1;
-    } elsif ($line eq '# Done with Tests.') {
-       say $line;
-       exit $code;
+    if(/Starting Tests/i.test(data)) {
+      started = true;
+    } else if(/Done with Tests/i.test(data)) {
+      console.log(data);
+      process.exit(code);
     }
 
-    if (! $started) {
-      next;
+    if (! started) {
+      return
     }
 
-    say $line;
+    console.log(data);
 
-    if ($line =~ /fail/i) {
-      $code = 1;
+    if(/fail/i.test(data)) {
+      code = 1;
     }
 
-  }
+  });
   '''
 }

@@ -27,11 +27,12 @@ def call(boards) {
     for (int i = 0; i < examples.size(); i++) {
 
       def example = examples[i]
+      def name = example_names[i]
 
-      builders[example_names[i]] {
+      builders[name] {
 
         node(platform) {
-          echo "Verifying ${example_names[i]}.ino on ${platform}"
+          echo "Verifying ${name}.ino on ${platform}"
           sh "arduino --board \$${platform} --verify ${example} 2>&1"
         }
 

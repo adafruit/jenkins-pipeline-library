@@ -2,6 +2,8 @@ def call(boards) {
 
   for(board in boards) {
 
+    stage "Test: ${board}"
+
     // bind the label variable before the closure
     def platform = board
     def tests = []
@@ -19,7 +21,7 @@ def call(boards) {
 
         echo "Testing ${name}.ino on ${platform}"
         sh "arduino --board \$${platform} --port \$${platform}_PORT --upload ${test}"
-        sh "prove --formatter TAP::Formatter::Jenkins ./tests/arduino_serial.t :: --port \$${platform}_PORT"
+        sh "prove --formatter TAP::Formatter::Jenkins .tests/arduino_serial.t :: --port \$${platform}_PORT"
 
       }
 

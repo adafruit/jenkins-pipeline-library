@@ -1,8 +1,8 @@
 def call(boards) {
 
-  stage "Verify Examples"
-
   for(board in boards) {
+
+    stage "Verify: ${board}"
 
     // bind the label variable before the closure
     def platform = board

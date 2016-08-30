@@ -40,6 +40,8 @@ def call(boards) {
 
     }
 
+
+    builders.failFast = true
     parallel builders
 
   }

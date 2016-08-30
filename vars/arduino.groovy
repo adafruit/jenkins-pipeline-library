@@ -20,13 +20,15 @@ def call(body) {
       node(n) {
         stage "Setup: ${n}"
         checkout scm
-        installArduinoIDE(n, "1.6.11")
+        env.PATH = '$HOME/arduino_ide:$PATH'
+        generateTest()
         installBoards(config.platforms)
         installLibraries(config.libraries)
       }
     }
 
-    verifyExamples(config.boards)
+    //verifyExamples(config.boards)
+    testBoards(config.boards)
     publishResults(config.boards)
 
   } catch (err) {

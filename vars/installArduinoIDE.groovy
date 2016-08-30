@@ -1,6 +1,7 @@
 def call(target, version) {
 
   sh """#!/bin/bash
+  \$BUILD_FOLDER=`pwd`
   mkdir -p \$HOME/ide
   cd \$HOME/ide
   if [ ! -d \"arduino-${version}\" ]; then
@@ -8,7 +9,8 @@ def call(target, version) {
     tar xf arduino-${version}-linuxarm.tar.xz
     mkdir arduino-${version}/portable
   fi
-  cp -rf arduino-${version} \$WORKSPACE/arduino_ide
+  cp -rf arduino-${version} \${BUILD_FOLDER}/arduino_ide
+  export \$PATH=\"\${BUILD_FOLDER}/arduino_ide:\${PATH}\"
   """
 
 }

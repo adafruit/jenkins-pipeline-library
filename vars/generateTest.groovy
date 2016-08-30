@@ -15,7 +15,7 @@ def call() {
 
   my $port = Device::SerialPort->new($PORT);
   my $started = 0;
-  my code = 0;
+  my $code = 0;
 
   $port->baudrate(115200);
   $port->databits(8);

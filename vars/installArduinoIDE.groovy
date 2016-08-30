@@ -1,6 +1,6 @@
 def call(target, version) {
 
-  def path = sh(returnStdout: true, script: 'echo `pwd`/arduino_ide:$PATH').trim()
+  def path = sh(returnStdout: true, script: 'printf "%q\n" "$(pwd)/arduino_ide:${PATH}"').trim()
 
   sh """#!/bin/bash
   BUILD_FOLDER=`pwd`

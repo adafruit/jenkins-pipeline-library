@@ -1,5 +1,7 @@
 def call(target, version) {
 
+  def path = sh(returnStdout: true, script: 'echo `pwd`/arduino_ide:$PATH').trim()
+
   sh """#!/bin/bash
   BUILD_FOLDER=`pwd`
   mkdir -p \$HOME/ide
@@ -10,7 +12,8 @@ def call(target, version) {
     mkdir arduino-${version}/portable
   fi
   cp -rf arduino-${version} \${BUILD_FOLDER}/arduino_ide
-  export PATH=\"\${BUILD_FOLDER}/arduino_ide:\${PATH}\"
   """
+
+  env.PATH = path
 
 }

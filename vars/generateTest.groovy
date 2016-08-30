@@ -13,7 +13,7 @@ def call() {
   }, 30000);
 
   var port = new SerialPort(args[0], {
-    parser: SerialPort.parsers.readline('\r\n'),
+    parser: SerialPort.parsers.readline('\\r\\n'),
     baudRate: 115200
   });
 

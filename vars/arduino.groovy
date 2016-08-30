@@ -19,7 +19,8 @@ def call(body) {
     for(n in _nodes) {
       node(n) {
         stage "Setup: ${n}"
-        generateTest()
+        checkout scm
+        installArduinoIDE(n, "1.6.11")
         installBoards(config.platforms)
         installLibraries(config.libraries)
       }

@@ -11,7 +11,6 @@ def call(boards) {
 
     node(platform) {
 
-      checkout scm
       sh "arduino --board \$${platform} --save-prefs"
 
       examples = sh(returnStdout: true, script: "find examples -name '*.ino' | sort").trim().split("\n")

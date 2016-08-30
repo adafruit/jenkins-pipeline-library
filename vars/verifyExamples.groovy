@@ -17,7 +17,7 @@ def call(boards) {
       examples = sh(returnStdout: true, script: "find examples -name '*.ino' | sort").trim().split("\n")
 
       for (int i = 0; i < examples.size(); i++) {
-        example_names[i] = sh(returnStdout: true, script: "basename ${examples[i]} .ino")
+        example_names[i] = sh(returnStdout: true, script: "basename ${examples[i]} .ino").trim()
       }
 
     }
@@ -29,7 +29,7 @@ def call(boards) {
       def example = examples[i]
       def name = example_names[i]
 
-      builders[name] {
+      builders[name] = {
 
         node(platform) {
           echo "Verifying ${name}.ino on ${platform}"

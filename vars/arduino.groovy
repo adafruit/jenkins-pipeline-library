@@ -21,13 +21,12 @@ def call(body) {
         stage "Setup: ${n}"
         checkout scm
         env.PATH = '$HOME/arduino_ide:$PATH'
-        generateTest()
         installBoards(config.platforms)
         installLibraries(config.libraries)
       }
     }
 
-    //verifyExamples(config.boards)
+    verifyExamples(config.boards)
     testBoards(config.boards)
     publishResults(config.boards)
 

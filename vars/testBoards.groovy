@@ -11,8 +11,9 @@ def call(boards) {
     node(platform) {
 
       sh "arduino --board \$${platform} --save-prefs"
+      sh "cp -r .tests tests"
 
-      tests = sh(returnStdout: true, script: "find .tests -name '*.ino' | sort").trim().split("\n")
+      tests = sh(returnStdout: true, script: "find tests -name '*.ino' | sort").trim().split("\n")
 
       for(int i = 0; i < tests.size(); i++) {
 
@@ -21,7 +22,7 @@ def call(boards) {
 
         echo "Testing ${name}.ino on ${platform}"
         sh "arduino --board \$${platform} --port \$${platform}_PORT --upload ${test}"
-        sh "prove --formatter TAP::Formatter::Jenkins .tests/arduino_serial.t :: \$${platform}_PORT"
+        sh "prove --formatter TAP::Formatter::Jenkins tests/arduino_serial.t :: \$${platform}_PORT"
 
       }
 

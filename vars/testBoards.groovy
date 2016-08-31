@@ -18,11 +18,12 @@ def call(boards) {
       for(int i = 0; i < tests.size(); i++) {
 
         def name = sh(returnStdout: true, script: "basename ${tests[i]} .ino").trim()
-        def test = tests[i]
+        def path = tests[i]
+        def test = generateTest(path, platform)
 
         echo "Testing ${name}.ino on ${platform}"
         sh "arduino --board \$${platform} --port \$${platform}_PORT --upload ${test}"
-        sh "prove --formatter TAP::Formatter::Jenkins tests/arduino_serial.t :: \$${platform}_PORT"
+        sh "prove --formatter TAP::Formatter::Jenkins ${test} :: \$${platform}_PORT"
 
       }
 

@@ -1,6 +1,8 @@
-def call() {
+def call(path, platform) {
 
-  writeFile file: ".tests/arduino_serial.t", text: """#!/usr/bin/env node
+  def test = "${path}.${platform}.t"
+
+  writeFile file: test, text: """#!/usr/bin/env node
 
   var SerialPort = require('serialport');
   var args = process.argv.slice(2);
@@ -43,4 +45,7 @@ def call() {
 
   });
   """
+
+  return test
+
 }

@@ -12,6 +12,7 @@ def call(boards) {
 
   node('master') {
     step([$class: 'GitHubCommitStatusSetter'])
+    step([$class: 'WsCleanup'])
   }
 
 }

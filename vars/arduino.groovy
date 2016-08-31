@@ -23,6 +23,4 @@ def call(body) {
 
   }
 
-  step([$class: 'WsCleanup'])
-
 }

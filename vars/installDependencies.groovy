@@ -11,9 +11,9 @@ def call(config) {
     def _label = Jenkins.instance.getLabel(board)
     def _nodes = _label.getNodes()
 
-    for(_node in _nodes) {
+    for(int i = 0; i < _nodes.size(); i++) {
 
-      def name = _node.getNodeName()
+      def name = _nodes[i].getNodeName()
 
       if(! (name in completed)) {
 

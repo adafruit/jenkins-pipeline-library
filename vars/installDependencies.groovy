@@ -6,29 +6,23 @@ def call(config) {
     step([$class: 'GitHubSetCommitStatusBuilder'])
   }
 
-  for(board in config.boards) {
+  def _nodes = getNodeNames(config.boards)
 
-    def _label = Jenkins.instance.getLabel(board)
-    def _nodes = _label.getNodes()
-    _label = null
+  for(int i = 0; i < _nodes.size(); i++) {
 
-    for(int i = 0; i < _nodes.size(); i++) {
+    def name = _nodes[i].getNodeName()
 
-      def name = _nodes[i].getNodeName()
+    if(! (name in completed)) {
 
-      if(! (name in completed)) {
-
-        node(name) {
-          stage "Setup: ${name}"
-          checkout scm
-          env.PATH = '$HOME/arduino_ide:$PATH'
-          installBoards(config.platforms)
-          installLibraries(config.libraries)
-        }
-
-        completed << name
-
+      node(name) {
+        stage "Setup: ${name}"
+        checkout scm
+        env.PATH = '$HOME/arduino_ide:$PATH'
+        installBoards(config.platforms)
+        installLibraries(config.libraries)
       }
+
+      completed << name
 
     }
 

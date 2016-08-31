@@ -1,12 +1,9 @@
 def call(body) {
 
-
   def config = [:]
   body.resolveStrategy = Closure.DELEGATE_FIRST
   body.delegate = config
   body()
-
-  def _nodes = getNodeNames(config.boards)
 
   currentBuild.result = "SUCCESS"
 
@@ -16,16 +13,7 @@ def call(body) {
       step([$class: 'GitHubSetCommitStatusBuilder', statusMessage: [content: "Testing on ${_nodes.size()} nodes"]])
     }
 
-    for(n in _nodes) {
-      node(n) {
-        stage "Setup: ${n}"
-        checkout scm
-        env.PATH = '$HOME/arduino_ide:$PATH'
-        installBoards(config.platforms)
-        installLibraries(config.libraries)
-      }
-    }
-
+    installDependencies(config)
     verifyExamples(config.boards)
     testBoards(config.boards)
     publishResults(config.boards)
@@ -37,5 +25,7 @@ def call(body) {
     throw err
 
   }
+
+  step([$class: 'WsCleanup'])
 
 }

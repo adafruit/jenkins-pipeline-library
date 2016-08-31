@@ -2,6 +2,10 @@ def call(config) {
 
   def completed = []
 
+  node('master') {
+    step([$class: 'GitHubSetCommitStatusBuilder'])
+  }
+
   for(board in config.boards) {
 
     def _label = Jenkins.instance.getLabel(board)

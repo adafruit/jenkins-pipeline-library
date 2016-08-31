@@ -9,9 +9,6 @@ def call(body) {
 
   try {
 
-    node('master') {
-      step([$class: 'GitHubSetCommitStatusBuilder', statusMessage: [content: "Testing on ${_nodes.size()} nodes"]])
-    }
 
     installDependencies(config)
     verifyExamples(config.boards)

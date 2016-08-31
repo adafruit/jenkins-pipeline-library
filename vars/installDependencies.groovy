@@ -17,7 +17,7 @@ def call(config) {
 
       if(! (name in completed)) {
 
-        node(n) {
+        node(name) {
           stage "Setup: ${name}"
           checkout scm
           env.PATH = '$HOME/arduino_ide:$PATH'

@@ -10,7 +10,7 @@ def call(config) {
 
   for(int i = 0; i < _nodes.size(); i++) {
 
-    def name = _nodes[i].getNodeName()
+    def name = _nodes[i]
 
     if(! (name in completed)) {
 

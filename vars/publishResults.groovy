@@ -5,7 +5,7 @@ def call(boards) {
   for(board in boards) {
 
     node(board) {
-      step([$class: 'TapPublisher', discardOldReports: true, enableSubtests: false, failIfNoResults: false, failedTestsMarkBuildAsFailure: false, flattenTapResult: false, includeCommentDiagnostics: false, outputTapToConsole: true, planRequired: true, showOnlyFailures: false, skipIfBuildNotOk: false, stripSingleParents: false, testResults: '', todoIsFailure: false, validateNumberOfTests: false, verbose: true])
+      step([$class: 'TapPublisher', discardOldReports: false, enableSubtests: false, failIfNoResults: false, failedTestsMarkBuildAsFailure: true, flattenTapResult: false, includeCommentDiagnostics: false, outputTapToConsole: true, planRequired: true, showOnlyFailures: false, skipIfBuildNotOk: false, stripSingleParents: false, testResults: '**/*.tap', todoIsFailure: false, validateNumberOfTests: true, verbose: true])
     }
 
   }

@@ -10,6 +10,7 @@ def call(config) {
 
     def _label = Jenkins.instance.getLabel(board)
     def _nodes = _label.getNodes()
+    _label = null
 
     for(int i = 0; i < _nodes.size(); i++) {
 

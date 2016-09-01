@@ -9,9 +9,12 @@ def call(body) {
 
   try {
 
-
     installDependencies(config)
-    verifyExamples(config.boards)
+
+    if(config.verify) {
+      verifyExamples(config.boards)
+    }
+
     testBoards(config.boards)
     publishResults(config.boards)
 

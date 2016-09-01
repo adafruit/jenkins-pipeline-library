@@ -7,7 +7,6 @@ def call(path, platform) {
   var SerialPort = require('serialport');
   var args = process.argv.slice(2);
   var started = false;
-  var code = 0;
 
   setTimeout(function() {
     console.error('# test timeout');
@@ -30,18 +29,11 @@ def call(path, platform) {
       started = true;
     } else if(/Done with Tests/i.test(data)) {
       console.log(data);
-      process.exit(code);
+      process.exit();
     }
 
-    if (! started) {
-      return
-    }
-
-    console.log(data);
-
-    if(/fail/i.test(data)) {
-      code = 1;
-    }
+    if(started)
+      console.log(data);
 
   });
   """

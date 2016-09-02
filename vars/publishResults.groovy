@@ -12,7 +12,7 @@ def call(boards) {
 
   node('master') {
     step([$class: 'GitHubCommitStatusSetter'])
-    step([$class: 'WsCleanup'])
+    step([$class: 'WsCleanup', deleteDirs: true, patterns: [[pattern: '**', type: 'INCLUDE']]])
   }
 
 }

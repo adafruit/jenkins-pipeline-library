@@ -16,6 +16,7 @@ def call(config) {
 
       node(name) {
         stage "Setup: ${name}"
+        step([$class: 'WsCleanup', deleteDirs: true, notFailBuild: true, patterns: [[pattern: '*.tap', type: 'INCLUDE'], [pattern: 'tests', type: 'INCLUDE']]])
         checkout scm
         env.PATH = '$HOME/arduino_ide:$PATH'
         installBoards(config.platforms)

@@ -23,7 +23,7 @@ def call(boards) {
 
         echo "Testing ${name}.ino on ${platform}"
         sh "arduino --board \$${platform} --port \$${platform}_PORT --upload ${test}"
-        sh "prove --formatter TAP::Formatter::Jenkins ${test} :: \$${platform}_PORT"
+        sh "prove --formatter TAP::Formatter::Jenkins ${test} :: \$${platform}_PORT || true"
 
       }
 

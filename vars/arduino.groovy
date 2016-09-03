@@ -21,7 +21,6 @@ def call(body) {
   } catch (err) {
 
     currentBuild.result = "FAILURE"
-    publishResults(config.boards)
     throw err
 
   }

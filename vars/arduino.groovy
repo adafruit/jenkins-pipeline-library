@@ -9,14 +9,16 @@ def call(body) {
 
   try {
 
-    installDependencies(config)
+    def platform = new com.adafruit.platforms.Arduino()
+
+    platform.installDependencies(config)
 
     if(config.verify) {
-      verifyExamples(config.boards)
+      platform.verifyExamples(config.boards)
     }
 
-    testBoards(config.boards)
-    publishResults(config.boards)
+    platform.testBoards(config.boards)
+    platform.publishResults(config.boards)
 
   } catch (err) {
 

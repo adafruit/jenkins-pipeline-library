@@ -4,9 +4,14 @@ def call(path, platform) {
 
   writeFile file: test, text: """#!/usr/bin/env node
 
+  var Gpio = require('onoff').Gpio,
+  reset = new Gpio(18, 'out');
   var SerialPort = require('serialport');
   var args = process.argv.slice(2);
   var started = false;
+
+  reset.writeSync(0);
+  reset.writeSync(1);
 
   setTimeout(function() {
     console.error('# test timeout');
